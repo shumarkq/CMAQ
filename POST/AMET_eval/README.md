@@ -35,6 +35,14 @@ Simulation start and end dates (START_DATE_H, END_DATE_H) should be in the forma
 
 If the user would prefer the evaluation plots be based on ALL available data from the simulation time period, rather than monthly summaries, there is an option for this in section 7.  
 
+__Required Input files__
+1. METCRO2D 
+2. METCRO3D
+3. CCTM_ACONC
+4. CCTM_APMDIAG
+5. CCTM_WETDEP1
+6. CCTM_DRYDEP
+
 __Naming Conventions for Input/Output Files__
 
 Consistent naming conventions are used throughout the script to facilitate looping over dates. 
