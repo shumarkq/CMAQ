@@ -42,18 +42,18 @@ Consistent naming conventions are used throughout the script to facilitate loopi
   *${METCRO2D_NAME}_${YY}${MM}${DD}.nc*   
   *${METCRO3D_NAME}_${YY}${MM}${DD}.nc*  
 + This script assumes daily CCTM output files are dated with the following naming convention: 
-  *[File Name]_${YYYY}${MM}${DD}.nc*  
+    *[File Name]_${YYYY}${MM}${DD}.nc*  
   For example: *CCTM_ACONC_v52_intel17.0_SE52BENCH_${YYYY}${MM}${DD}.nc*    
-+ This script assumes monthly combine files are dated with the following naming convention: 
++ This script will create monthly combine files that are dated with the following naming convention: 
   *${COMBINE_ACONC_NAME}_${YYYY}${MM}.nc*  
   *${COMBINE_DEP_NAME}_${YYYY}${MM}.nc*  
 
 File names can be adjusted but may require changes to the script below section 7. 
 
 Output files are organized into three directories: 
-+$POSTDIR - loction to write combine files, or the location of existing combine files
-+$EVALDIR - location to save sitecmp and sitecmp_dailyo3 .csv files for each network
-+$PLOTDIR - location to save evaluation plots 
++ $POSTDIR - loction to write combine files, or the location of existing combine files
++ $EVALDIR - location to save sitecmp and sitecmp_dailyo3 .csv files for each network
++ $PLOTDIR - location to save evaluation plots 
 These directories can be set to the same path.
 
 ### Section 3: System configuration, location of observations and code repositories
