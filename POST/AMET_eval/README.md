@@ -30,21 +30,21 @@ __Simulation Dates__
 
 Simulation start and end dates (START_DATE_H, END_DATE_H) should be in the format "YYYY-MM-DD".  This run script is set up to organize the various post-processing steps into monthly files.  For example, if a user has an annual simulation and uses the script to go through all of the post-processing steps the end result will include:
 1.  12 monthly COMBINE_ACONC and 12 montly COMBINE_DEP files with hourly model output, all written to the $POSTDIR directory. 
-2.  12 sitecmp .csv files for EACH network selected in Section 5.  These files will be organized into 12 directories labeled $EVALDIR/$YYYY$MM.
-3.  Evalution plots will be created for each month of model/obs pairs and organized into 12 directories labeled $PLOTDIR/$YYYY$MM.
+2.  12 .csv files with matched model/obs data for EACH network selected in Section 5.  These files will be organized into 12 directories labeled $EVALDIR/$YYYY$MM.
+3.  Evalution plots for each month of model/obs pairs, organized into 12 directories labeled $PLOTDIR/$YYYY$MM.
 
 If the user would prefer the evaluation plots be based on ALL available data from the simulation time period, rather than monthly summaries, there is an option for this in section 7.  
 
 __Required Input files__
-1. METCRO2D - contains instantaneous hourly surface temperature (TEMP2), planatary boundary height (PBL), solar radiation (RGRND), 10m wind speed (WSDP10), 10m wind direction (WDIR10), precipitation (RN+RC). 
-2. METCRO3D - contains instantaneous hourly air density (DENS) which is need for unit conversions of gas and aerosol species
-3. CCTM_ACONC - contains hourly average gas and aerosol modeled species time stamped at the top of the hour
-4. CCTM_APMDIAG - contains hourly average relative humidity (RH) and PM2.5 modeled size distributions time stamped at the top of the hour
-5. CCTM_WETDEP1 - contains hourly summed gas and aerosol wet deposition species time stamped at the top of the hour
-6. CCTM_DRYDEP - contains hourly summed gas and aerosol dry deposition species time stamped at the top of the hour
+1. METCRO2D - needed for instantaneous hourly surface temperature (TEMP2), planatary boundary height (PBL), solar radiation (RGRND), 10m wind speed (WSDP10), 10m wind direction (WDIR10), precipitation (RN+RC). 
+2. METCRO3D - needed for instantaneous hourly air density (DENS) which is used in unit conversions of gas and aerosol species
+3. CCTM_ACONC - needed for hourly average gas and aerosol modeled species time stamped at the top of the hour
+4. CCTM_APMDIAG - needed for hourly average relative humidity (RH) and PM2.5 modeled size distributions time stamped at the top of the hour
+5. CCTM_WETDEP1 - needed for hourly summed gas and aerosol wet deposition species time stamped at the top of the hour
+6. CCTM_DRYDEP - needed for hourly summed gas and aerosol dry deposition species time stamped at the top of the hour
 
 *Notes*
-* PM2.5 modeled size distributions from the CCTM_APMDIAG file are used to calculate PM2.5 species with a cut-off diameter of 2.5μm or less.  These species are labeled with the "PM25\_" in concentration species definition files provided in the CMAQ code base for versions 5.2 and later.  For example, in the ANO3IJ is I and J mode particle nitrate and PM25_NO3 is particle nitrate with diameter of 2.5μm or less.
+* PM2.5 modeled size distributions from the CCTM_APMDIAG file are used to calculate PM2.5 species with a cut-off diameter of 2.5μm or less.  These species are labeled with the "PM25\_" in concentration species definition files provided in the CMAQ code base for versions 5.2 and later.  For example, model variable ANO3IJ is I and J mode particle nitrate and PM25_NO3 is particle nitrate with diameter of 2.5μm or less.
 * Prior to CMAQv5.2, aerosol modeled size distributions were contained in the AERODIAM file which contained instantaneous hourly model variables starting with hour 1.  In CMAQv5.2 the CCTM_APMDIAG output was created to produce hourly average model variables starting with hour 0 which is analogous to the structure of the CCTM_ACONC output file.  This script is structured to *only* work with the CCTM_APMDIAG file for extracting model size distributions.  If the CCTM_APMDIAG file was not produced by the model simulation (by setting CTM_APMDIAG flag to F in the run_cctm.csh run script) then this evaluation script can be modified to remove the dependency on the CCTM_APMDIAG file.  
 * Surface temperature and relative humidity are used to calculate an "FRM equivalent" PM2.5 total estimate that accounts for loss of particle nitrate, sulfate and ammonium from the FRM sampling filters. These species are labeled with "\_FRM" in the concentration species definition files provided in the CMAQ code base for versions 5.2 and later, i.e. PMIJ_FRM and PM25_FRM.
 
@@ -56,8 +56,8 @@ Consistent naming conventions are used throughout the script to facilitate loopi
   *${METCRO2D_NAME}_${YY}${MM}${DD}.nc*   
   *${METCRO3D_NAME}_${YY}${MM}${DD}.nc*  
 + This script assumes daily CCTM output files are dated with the following naming convention: 
-    *[File Name]_${YYYY}${MM}${DD}.nc*  
-  For example: *CCTM_ACONC_v52_intel17.0_SE52BENCH_${YYYY}${MM}${DD}.nc*    
+    *${CCTM_Name}_${YYYY}${MM}${DD}.nc*  
+  For example: *CCTM_ACONC_v52_intel17.0_SE52BENCH_20110701.nc*    
 + This script will create monthly combine files that are dated with the following naming convention: 
   *${COMBINE_ACONC_NAME}_${YYYY}${MM}.nc*  
   *${COMBINE_DEP_NAME}_${YYYY}${MM}.nc*  
