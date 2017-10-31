@@ -164,9 +164,10 @@ The combine Fortran utility combines fields from a set of IOAPI or wrfout files 
  TIME_SHIFT                Set timeshift flag in site compare. This should always be set to 0 unless using ACONC 
                            files that have been timeshifted.  
  AQ_SPECIES_LIST           Species list for matching model species names to names in observation data files.
- INC_AERO6_SPECIES         Include specific species from the AERO6 chemical mechanism in the species list.  Choices are T,F.
- INC_CUTOFF                Include PM2.5 species in which a size cut was applied based on modeled aerosol mode parameters.  
+ INC_AERO6_SPECIES         Include specific species from the AERO6 chemical mechanism in the species list.  
                            Choices are T,F.
+ INC_CUTOFF                Include PM2.5 species in which a size cut was applied based on modeled aerosol 
+                           mode parameters. Choices are T,F.
 #> The following flags (T/F or Y/N) are used to select which standard network should be used in the analysis.  
  AERONET               
  AMON                    
@@ -223,10 +224,10 @@ The combine Fortran utility combines fields from a set of IOAPI or wrfout files 
 
 ### Section 6: AMET configuration options
 ```
- AMET_DATABASE             AMET database name, e.g. adad_CMAQ_v52_Dev.  
-                           Model to model comparisons are possible for all projects loaded within the same database.  
- AMET_PROJECT              AMET project name, e.g. v52_intel17_0_SE52BENCH.  Character string cannot include ".". 
-                           Project will be created if it does not already exist.
+ AMET_DATABASE             AMET database name, e.g. adad_CMAQ_v52_Dev. Model to model 
+                           comparisons are possible for all projects loaded within the same database.  
+ AMET_PROJECT              AMET project name, e.g. v52_intel17_0_SE52BENCH.  Character string 
+                           cannot include ".". Project will be created if it does not already exist.
  MODEL_TYPE                Type of model being evaluated, e.g. "CMAQ"
  RUN_DESCRIPTION           Meta data for the simulation, e.g. "CMAQv5.2 benchmark test case."
  USER_NAME                 User name, e.g. "myuserid" , or can be set to `whoami`
@@ -237,9 +238,10 @@ The combine Fortran utility combines fields from a set of IOAPI or wrfout files 
 ```
  AMETRINPUT                Set the location of the configuration file for the batch plotting.  
  AMET_PTYPE                Plot type. Options are "pdf","png","both"
- EVAL_BY_MONTH             T/F Flag. When set to T (default) evalatuion plots will be organized into monthly summaries. 
- AMET_PROJECT2             Specify a second simulation (already post-processed) to compare to using model-to-model 
-                           evaluation plots, e.g. "CMAQv52_Benchmark_Test" 
+ EVAL_BY_MONTH             T/F Flag. When set to T (default) evalatuion plots will be organized 
+                           into monthly summaries. 
+ AMET_PROJECT2             Specify a second simulation (already post-processed) to compare to using 
+                           model-to-model evaluation plots, e.g. "CMAQv52_Benchmark_Test" 
  OUTDIR2                   Specify the location of the sitecmp files from the second simulation
 ```
 *Notes*
