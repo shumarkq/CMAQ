@@ -94,8 +94,8 @@ Prior to running this post-processing run script, the user is encouraged to buil
    cd $CMAQ_HOME/POST/combine/scripts
    ./bldit_combine.csh [compiler] [version]
    ```    
-  Compiler options are intel, gcc, pgi  
-  If you don’t choose a version number, the default for the system you’re on will be used (e.g. on atmos: intel 17.0)  
+   Compiler options are intel, gcc, pgi  
+   If you don’t choose a version number, the default for the system you’re on will be used (e.g. on atmos: intel 17.0)  
 
 * Within section 3 of this run script the user should select the compiler and compiler version that they used to create the combine, sitecmp and sitecmp_dailyo3 executables.
 * CMAQ_HOME should be set to the project directory set in the bldit_project.csh script in step 2.  If you are not using a CMAQ5.2 reposiotry you can comment out the line for CMAQ_HOME in section 3 and modify the location of the executables and the spec_def files in sections 4 and 5.
