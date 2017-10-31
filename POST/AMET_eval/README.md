@@ -75,19 +75,20 @@ These directories can be set to the same path.
 Prior to running this post-processing run script, the user is encouraged to build their own executables for the combine, sitecmp and sitecmp_dailyo3 executables using the following steps:
 1. Clone the 5.2 branch of the USEPA CMAQ GitHub repository: 
   `gitclone -b 5.2 https://github.com/USEPA/CMAQ.git CMAQ52_repo`    
-2. Edit and run bldit_project.csh to create a CMAQ “Project” space.
-  `Ln 18: set CMAQ_HOME = /home/username/cmaq_project`    
+2. Edit and run bldit_project.csh to create a CMAQ “Project” space:
+   `Ln 18: set CMAQ_HOME = /home/username/cmaq_project`    
    `Ln 24-40: Select which tools you need (e.g. COMBINE, SITECMP, HR2DAY)`    
    `./bldit_project.csh epa`  
-3. Create executables for the Fortran utilities
-  `cd $CMAQ_HOME/POST/combine/scripts`  
-  `./bldit_combine.csh [compiler] [version]`    
+3. Create executables for the Fortran utilities:
+   `cd $CMAQ_HOME/POST/combine/scripts`  
+   `./bldit_combine.csh [compiler] [version]`    
   Compiler options are intel, gcc, pgi  
   If you don’t choose a version number, the default for the system you’re on will be used (e.g. on atmos: intel 17.0)  
 
 * Within section 3 of this run script the user should select the compiler and compiler version that they used to create the combine, sitecmp and sitecmp_dailyo3 executables.
 * CMAQ_HOME should be set to the project directory set in the bldit_project.csh script in step 2.  If you are not using a CMAQ5.2 reposiotry you can comment out the line for CMAQ_HOME in section 3 and modify the location of the executables and the spec_def files in sections 4 and 5.
-* OBS_DATA_DIR contains the location of the observation data from the different routine networks.  These observation files have already been pre-formatted to be compatible with the sitecmp and sitecmp_dailyo3 utilities.  The files are already available on atmos under the directory /work/MOD3EVAL/aq_obs/routine, but can also be downloaded from the  [CMAS Center Data Clearinghouse](https://www.cmascenter.org/download/data.cfm) under the heading "2000-2015 North American Air Quality Observation Data".
+* OBS_DATA_DIR should be set to the location of the observation data from the different routine networks of interest.  These observation files need to be formatted to be compatible with the sitecmp and sitecmp_dailyo3 utilities.  The pre-formatted files are already available on atmos under the directory /work/MOD3EVAL/aq_obs/routine, but can also be downloaded from the  [CMAS Center Data Clearinghouse](https://www.cmascenter.org/download/data.cfm) under the heading "2000-2015 North American Air Quality Observation Data".
+* AMETBASE should be set to the location of the AMETv1.3 code base.  These files are already available on atmos under the directory /work/MOD3EVAL/amet.  They can also be cloned directly from GitHub using the command  `gitclone -b 1.3 https://github.com/USEPA/AMET.git AMET13_repo` 
 
 ### Section 4: Combine configuration options
 
