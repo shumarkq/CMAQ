@@ -73,15 +73,15 @@ These directories can be set to the same path.
 
 ### Section 3: System configuration, location of observations and code repositories
 Prior to running this post-processing run script, the user is encouraged to build their own executables for the combine, sitecmp and sitecmp_dailyo3 executables using the following steps:
-1.	Clone the 5.2 branch of the USEPA CMAQ GitHub repository.
-  + gitclone -b 5.2 https://github.com/USEPA/CMAQ.git CMAQ52_repo  
-2.	Edit and run bldit_project.csh to create a CMAQ “Project” space.
-  +	Ln 18: set CMAQ_HOME = /home/username/cmaq_project  
-  +	Ln 24-40: Select which tools you need (e.g. COMBINE, SITECMP, HR2DAY)  
-  +	./bldit_project.csh epa  
-3.	Create executables for the Fortran utilities
-  +	cd $CMAQ_HOME/POST/combine/scripts  
-  +	./bldit_combine.csh [compiler] [version]  
+1. Clone the 5.2 branch of the USEPA CMAQ GitHub repository: 
+  `gitclone -b 5.2 https://github.com/USEPA/CMAQ.git CMAQ52_repo`    
+2. Edit and run bldit_project.csh to create a CMAQ “Project” space.
+  `Ln 18: set CMAQ_HOME = /home/username/cmaq_project`    
+   `Ln 24-40: Select which tools you need (e.g. COMBINE, SITECMP, HR2DAY)`    
+   `./bldit_project.csh epa`  
+3. Create executables for the Fortran utilities
+  `cd $CMAQ_HOME/POST/combine/scripts`  
+  `./bldit_combine.csh [compiler] [version]`    
   Compiler options are intel, gcc, pgi  
   If you don’t choose a version number, the default for the system you’re on will be used (e.g. on atmos: intel 17.0)  
 
