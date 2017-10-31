@@ -17,14 +17,14 @@ The setting of environment variables in the run script is divided into 8 differe
  WRITE_SITEX       Write scripts for running site compare for each selected network? Choices are T,F.
  RUN_SITEX         Run site compare scripts for each selected network? Choices are T,F.
  CREATE_PROJECT    Create AMET project? Choices are T,F.
+#> AMET options
  LOAD_SITEX        Load site compare output for each selected network into AMET? Choices are T,F.
  UPDATE_PROJECT    Update the project info for an existing project (all data are retained)? Choices are T,F.
  REMAKE_PROJECT    Remake an existing AMET project. Note that all existing data will be deleted. Choices are T,F.
  DELETE_PROJECT    Delete an existing AMET project. This will delete all data in the existing
                    AMET table and remove the table from the database. Choices are T,F. 
-
- AMET_DB           Set to T if the model/obs pairs are loaded in the AMET database (i.e. by setting LOAD_SITEX = T)
-                   When set to F, plotting scripts will read the sitecmp .csv files directly
+#> Plotting options
+ AMET_DB           Use the AMET database for evaluation plotting? Choices are T,F.
  spatial_plots     Create maps of biase and error from site compare output? Choices are T,F. 
  stacked_barplots  Create stacked bar plots of PM2.5 species from site compare output? Choices are T,F.
  time_plots        Create time series plots from site compare output? Choices are T,F.
@@ -40,9 +40,10 @@ All 14 environment variables in this section are T/F flags.  Flags can be set to
 
 A user can choose to do all of the steps at once or run the script multiple times.  For example, the script can be set to only run combine by setting the first flag to T and the remaining flags to F.  The user can then rerun the script at a later time to create the sitecmp files and evaluation plots.  In this case the first flag can be set to F since the combine files already exist.
 
-A user has the option to create an AMET project and load the model/obs data into the AMET MYSQL database. Loading the data into the databse allows users who have access to the RTP campus Intranet to access the data online through the [AMET web interface](http://newton.rtpnc.epa.gov/wyat/AMET_AMAD/querygen_aq.php).  The web interface allows for more refined control over the evaluation plots.  Loading the data into the AMET database also allows the users to evaluate the model output across all of the model/obs data in the simulation period rather than the default mode which produces monthly summaries.  This option is set in section 7. 
-
-An AMET project does not have to be created in order to use the AMET batch plotting scripts.  If the user chooses not to load the data into the AMET database, they should set the AMET_DB flag to F.  In this case the batch plotting scripts will read the data directly from the .csv sitecmp and sitecmp_dailyo3 files. 
+*Notes*
+* A user has the option to create an AMET project and load the model/obs data into the AMET MYSQL database. Loading the data into the databse allows users who have access to the RTP campus Intranet to access the data online through the [AMET web interface](http://newton.rtpnc.epa.gov/wyat/AMET_AMAD/querygen_aq.php).  The web interface allows for more refined control over the evaluation plots.  Loading the data into the AMET database also allows the users to evaluate the model output across all of the model/obs data in the simulation period rather than the default mode which produces monthly summaries.  This option is set in section 7. 
+* AMET_DB should only be set to T if LOAD_SITEX=T (or if LOAD_SITEX has been set to T previously).
+* An AMET project does not have to be created in order to use the AMET batch plotting scripts.  If the user chooses not to load the data into the AMET database, they should set the AMET_DB flag to F.  In this case the batch plotting scripts will read the data directly from the .csv sitecmp and sitecmp_dailyo3 files. 
 
 ### Section 2: Simulation information, Input/Output directories
 ```
@@ -179,7 +180,8 @@ The combine Fortran utility combines fields from a set of IOAPI or wrfout files 
  CSN              
  IMPROVE          
  NADP             
- SEARCH_HOURLY    
+ SEARCH_HOURLY    T/F; Network data includes O3, CO, SO2, NO, NO2, NOY, HNO3, NH3, EC, OC, TC, PM2.5, NH4, SO4,
+                       WSPD, RH, SFC_TMP, precip, solar radiation
  SEARCH_DAILY   
  EMEP_HOURLY      
  EMEP_DAILY       
