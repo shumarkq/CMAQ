@@ -53,14 +53,20 @@ __Naming Conventions for Input/Output Files__
 
 Consistent naming conventions are used throughout the script to facilitate looping over dates. 
 + This script assumes MET files are dated with the following naming convention: 
-   *${METCRO2D_NAME}_${YY}${MM}${DD}.nc*   
-   *${METCRO3D_NAME}_${YY}${MM}${DD}.nc*  
+   ```
+   ${METCRO2D_NAME}_${YY}${MM}${DD}.nc   
+   ${METCRO3D_NAME}_${YY}${MM}${DD}.nc
+   ``` 
 + This script assumes daily CCTM output files are dated with the following naming convention: 
-    *${CCTM_Name}_${YYYY}${MM}${DD}.nc*  
+    ```
+    ${CCTM_Name}_${YYYY}${MM}${DD}.nc
+    ```
   For example: *CCTM_ACONC_v52_intel17.0_SE52BENCH_20110701.nc*    
 + This script will create monthly combine files that are dated with the following naming convention: 
-  *${COMBINE_ACONC_NAME}_${YYYY}${MM}.nc*  
-  *${COMBINE_DEP_NAME}_${YYYY}${MM}.nc*  
+  ```
+  ${COMBINE_ACONC_NAME}_${YYYY}${MM}.nc  
+  ${COMBINE_DEP_NAME}_${YYYY}${MM}.nc
+  ```
 
 File names can be adjusted but may require changes to the script below section 7. 
 
@@ -74,14 +80,20 @@ These directories can be set to the same path.
 ### Section 3: System configuration, location of observations and code repositories
 Prior to running this post-processing run script, the user is encouraged to build their own executables for the combine, sitecmp and sitecmp_dailyo3 executables using the following steps:
 1. Clone the 5.2 branch of the USEPA CMAQ GitHub repository: 
-  `gitclone -b 5.2 https://github.com/USEPA/CMAQ.git CMAQ52_repo`    
+  ```
+  gitclone -b 5.2 https://github.com/USEPA/CMAQ.git CMAQ52_repo
+  ```
 2. Edit and run bldit_project.csh to create a CMAQ “Project” space:
-   `Ln 18: set CMAQ_HOME = /home/username/cmaq_project`    
-   `Ln 24-40: Select which tools you need (e.g. COMBINE, SITECMP, HR2DAY)`    
-   `./bldit_project.csh epa`  
+   ```
+   Ln 18: set CMAQ_HOME = /home/username/cmaq_project
+   Ln 24-40: Select which tools you need (e.g. COMBINE, SITECMP, HR2DAY)
+   ./bldit_project.csh epa
+   ```
 3. Create executables for the Fortran utilities:
-   `cd $CMAQ_HOME/POST/combine/scripts`  
-   `./bldit_combine.csh [compiler] [version]`    
+   ```
+   cd $CMAQ_HOME/POST/combine/scripts
+   ./bldit_combine.csh [compiler] [version]
+   ```    
   Compiler options are intel, gcc, pgi  
   If you don’t choose a version number, the default for the system you’re on will be used (e.g. on atmos: intel 17.0)  
 
