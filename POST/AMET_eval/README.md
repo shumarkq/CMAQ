@@ -168,33 +168,59 @@ The combine Fortran utility combines fields from a set of IOAPI or wrfout files 
  INC_CUTOFF                Include PM2.5 species in which a size cut was applied based on modeled aerosol mode parameters.  
                            Choices are T,F.
 #> The following flags (T/F or Y/N) are used to select which standard network should be used in the analysis.  
- AERONET                  T/F; Network data includes
- AMON             
- AQS_HOURLY       
- AQS_DAILY_O3     
- AQS_DAILY        
- CASTNET          
- CASTNET_HOURLY   
- CASTNET_DAILY_O3 
- CASTNET_DRYDEP   
- CSN              
- IMPROVE          
- NADP             
- SEARCH_HOURLY    T/F; Network data includes O3, CO, SO2, NO, NO2, NOY, HNO3, NH3, EC, OC, TC, PM2.5, NH4, SO4,
-                       WSPD, RH, SFC_TMP, precip, solar radiation
- SEARCH_DAILY   
- EMEP_HOURLY      
- EMEP_DAILY       
- FLUXNET          
- MDN              
- NAPS_HOURLY      
- NOAA_ESRL_O3     
- #> The following flags are used to set ozone factors and units. Defaults should be used if using standard species definition files.
+ AERONET               
+ AMON                    
+ AQS_HOURLY               
+ AQS_DAILY_O3             
+ AQS_DAILY               
+ CASTNET                  
+ CASTNET_HOURLY          
+ CASTNET_DAILY_O3        
+ CASTNET_DRYDEP           
+ CSN                      
+ IMPROVE                  
+ NADP                     
+ SEARCH_HOURLY            
+ SEARCH_DAILY             
+ EMEP_HOURLY             
+ EMEP_DAILY               
+ FLUXNET                  
+ MDN                      
+ NAPS_HOURLY             
+ NOAA_ESRL_O3             
+ #> The following flags are used to set ozone factors and units. Defaults should be used if using 
+ #> standard species definition files.
  O3_OBS_FACTOR             Ozone factor to apply to obs values (1 by default)
  O3_MOD_FACTOR             Ozone factor to apply to model values (1 by default)
  O3_UNITS                  Ozone units to use in output (ppb by default)
  PRECIP_UNITS              Precipitation units used in WDEP file (cm by default)  
 ```
+
+| Network       | Available Species                                     | 
+| ------------- |-------------------------------------------------------| 
+| AERONET       | AOD_340, AOD_380, AOD_440, AOD_500, AOD_555, AOD_675, AOD_870, AOD_1020, AOD_1640|           
+| AMON          | NH3             |                     
+| AQS_HOURLY    | O3, NO, NOY, NO2, NOX, CO, SO2, PM2.5, PM10, Isoprene, Ethylene, Ethane, Toluene | 
+| AQS_DAILY_O3  | O3_1hrmax, O3_1hrmax_9cell, O3_1hrmax_time, O3_8rhmax, O3_8hrmax_9cell, O3_8hrmax_time, W126, SUM06|                 
+| AQS_DAILY    | PM2.5, PM10, Isoprene, Ethylene, Ethane, Toluene, Acetaldehyde, Formaldehyde, Oc, EC, TC, Na, Cl, NaCl, SO4, NO3, NH4, Fe, Al, Si, Ti, Ca, Mg, K, Mn, soil, OTHER, NCOM|                  
+| CASTNET      | SO4, NO3, NH4, TNO3, Mg, Ca, K, Na, Cl, HNO3, SO2|                  
+| CASTNET_HOURLY|  O3, surface temp, RH, solar radiation, precip, WSPD |                
+| CASTNET_DAILY_O3| O3_1hrmax, O3_1hrmax_9cell, O3_1hrmax_time, O3_8rhmax, O3_8hrmax_9cell, O3_8hrmax_time, W126, SUM06|
+| CASTNET_DRYDEP|              |                  
+| CSN           | SO4, NO3, NH4, PM2.5, OC, EC, TC, Na, Cl, Fe, Al, Si, Ti, Ca, Mg, K, Mn, soil, NaCl, OTHER, NCOM|                   
+| IMPROVE       | SO4, NO3, NH4, PM2.5, OC, EC, TC, Cl, PM10, PM Coarse, Na, NaCl, Fe, Al, Si, Ti, Ca, Mg, K, Mn, soil, OTHER, NCOM|
+| NADP          | NH4 wet dep, NO3 wet dep, SO4 wet dep, Cl wet dep, Na wet dep, Ca wet dep, Ca wet dep, Mg wet dep, K wet dep, Precip| 
+| SEARCH_HOURLY | O3, CO, SO2, NO, NO2, NOY, HNO3, NH3, EC, OC, TC, PM2.5, NH4, SO4, WSPD, RH, SFC_TMP, precip, solar radiation |       
+| SEARCH_DAILY  | SO4, NO3, NH4, TNO3, Na, OC, EC, PM2.5, Al, Si, K, Ca, Ti, Mn, Fe|               
+| EMEP_HOURLY   |              |           
+| EMEP_DAILY    |              |                   
+| FLUXNET       |              |                  
+| MDN           |              |              
+| NAPS_HOURLY   |              |                  
+| NOAA_ESRL_O3  |              |              
+
+
+
 ### Section 6: AMET configuration options
 ```
  AMET_DATABASE             AMET database name, e.g. adad_CMAQ_v52_Dev.  
