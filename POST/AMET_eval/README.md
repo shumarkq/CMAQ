@@ -9,7 +9,7 @@ The Simple Linux Utility for Resource Managment System (SLURM) header at the top
 * User should **not** change the *--partition=singlepe* if they wish to access the AMET database.  
 
 ## Setting environment variables
-The setting of environment variables in the run script is divided into 7 different numbered sections.  Details on the environment variables within each section are provided below.  Below section 7 is the portion of the script that loops through the simulations days to create the various post-processing outputs.  The user will typically not need to edit this bottom section.  
+The setting of environment variables in the run script is divided into 8 different numbered sections.  Details on the environment variables within each section are provided below. Section 8 is the portion of the script that loops through the simulations days to create the various post-processing outputs. The user will typically only need to make edits to sections 1-7.   
 
 ### Section 1: Select which analysis steps you want to execute
 ```
@@ -214,7 +214,20 @@ The combine Fortran utility combines fields from a set of IOAPI or wrfout files 
                            evaluation plots, e.g. "CMAQv52_Benchmark_Test" 
  OUTDIR2                   Specify the location of the sitecmp files from the second simulation
 ```
-* An example configuration file can be found on atmos: /work/MOD3EVAL/cmaq_exp/post_scripts/config_CMAQ_eval_AMET.R
+*Notes*
+* An example configuration file for ${AMETINPUT} can be found on atmos: /work/MOD3EVAL/cmaq_exp/post_scripts/config_CMAQ_eval_AMET.R
 * When EVAL_BY_MONTH is set to F evalution plots will be based on all available data between START_DATE_H and END_DATE_H. This option is only available when AMET_DB is set to T in Section 1.
-* Model-to-model evaluation plots, controlled through setting AMET_PROJECT2 and OUTDIR2 are currently supported in a limited fashion. If the user is not using the AMET database (e.g. AMET_DB set to F in Section 1), OUTDIR2 must be set to specify the location of the site compare files for the second simulation.  These sitecmp files should be labeled with the character string specified in the AMET_PROJECT2 environment variable.
+* Model-to-model evaluation plots, controlled through setting AMET_PROJECT2 and OUTDIR2, are currently supported in a limited fashion. If the user is not using the AMET database (e.g. AMET_DB set to F in Section 1), OUTDIR2 must be set to specify the location of the site compare files for the second simulation.  These sitecmp files should be labeled with the character string specified in the AMET_PROJECT2 environment variable.
+
+### Section 8: Execution of all post-processing steps
+The user will typically not need to edit this portion of the run script.  Section 8 is divided into 6 subsections:
+* 8a -Loop through simulation days to create ACONC combine files for every month
+* 8b - Loop through simulation days to create DEP combine files for every month
+* 8c - Advanced AMET configuration options
+* 8d - Create AMET project
+* 8e - Create and run sitecmp run scripts. Loade sitecmp data into AMET database.  Make plots for each month of model/obs data.
+* 8f - Create evaluation plots for the entire simulation period.
+
+
+
 
