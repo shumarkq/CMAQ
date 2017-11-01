@@ -23,7 +23,7 @@ The setting of environment variables in the run script is divided into 8 differe
  DELETE_PROJECT    Delete an existing AMET project. This will delete all data in the existing
                    AMET table and remove the table from the database. Choices are T,F. 
  AMET_DB           Use the AMET database for evaluation plotting? Choices are T,F.
- spatial_plots     Create maps of biase and error from site compare output? Choices are T,F. 
+ spatial_plots     Create maps of bias and error from site compare output? Choices are T,F. 
  stacked_barplots  Create stacked bar plots of PM2.5 species from site compare output? Choices are T,F.
  time_plots        Create time series plots from site compare output? Choices are T,F.
  scatter_plots     Create scatter plots from site compare output? Choices are T,F.
@@ -34,12 +34,12 @@ All 14 environment variables in this section are T/F flags.  Flags can be set to
 2. Create "sitex" run scripts for running the sitecmp and sitecmp_dailyo3 utilities.
 3. Run the sitecmp and sitecmp_dailyo3 utilities using the sitex scripts created in step 2 to create comma separated files with matched model/obs pairs for different observation networks. 
 4. [Optional] Load model/obs pairs into the AMET database.
-5. Create evaulation plots based on matched model/obs data using the batch plotting code in AMET.
+5. Create evaluation plots based on matched model/obs data using the batch plotting code in AMET.
 
 A user can choose to do all of the steps at once or run the script multiple times.  For example, the script can be set to only run combine by setting the first flag to T and the remaining flags to F.  The user can then rerun the script at a later time to create the sitecmp files and evaluation plots.  In this case the first flag can be set to F since the combine files already exist.
 
 *Notes*
-* A user has the option to create an AMET project and load the model/obs data into the AMET MYSQL database. Loading the data into the databse allows users who have access to the RTP campus Intranet to access the data online through the [AMET web interface](http://newton.rtpnc.epa.gov/wyat/AMET_AMAD/querygen_aq.php).  The web interface allows for more refined control over the evaluation plots.  Loading the data into the AMET database also allows the users to evaluate the model output across all of the model/obs data in the simulation period rather than the default mode which produces monthly summaries.  This option is set in section 7. 
+* A user has the option to create an AMET project and load the model/obs data into the AMET MYSQL database. Loading the data into the database allows users who have access to the RTP campus Intranet to access the data online through the [AMET web interface](http://newton.rtpnc.epa.gov/wyat/AMET_AMAD/querygen_aq.php).  The web interface allows for more refined control over the evaluation plots.  Loading the data into the AMET database also allows the users to evaluate the model output across all of the model/obs data in the simulation period rather than the default mode which produces monthly summaries.  This option is set in section 7. 
 * AMET_DB should only be set to T if LOAD_SITEX=T (or if LOAD_SITEX has been set to T previously).
 * An AMET project does not have to be created in order to use the AMET batch plotting scripts.  If the user chooses not to load the data into the AMET database, they should set the AMET_DB flag to F.  In this case the batch plotting scripts will read the data directly from the .csv sitecmp and sitecmp_dailyo3 files. 
 
@@ -48,12 +48,12 @@ A user can choose to do all of the steps at once or run the script multiple time
  START_DATE_H           Start day. Should be in format "YYYY-MM-DD".
  END_DATE_H             End day. Should be in format "YYYY-MM-DD".
  VRSN                   Model version, e.g. v52
- MECH                   Mechanism ID (should match file name of species defintion files, e.g. cb6r3_ae6_aq
+ MECH                   Mechanism ID (should match file name of species definition files, e.g. cb6r3_ae6_aq
  APPL                   Application Name (e.g. Code version, compiler, gridname, emissions, etc.)
- METDIR                 Location of MET ouput.
+ METDIR                 Location of MET output.
  METCRO2D_NAME          METCRO2D file name (without date and file extension).
  METCRO3D_NAME          METCRO3D file name (without date and file extension).
- CCTMOUTDIR             Location of CCTM ouput.
+ CCTMOUTDIR             Location of CCTM output.
  CCTM_ACONC_NAME        ACONC file name (without date and file extension).
  CCTM_APMDIAG_NAME      APMDIAG file name (without date and file extension).
  CCTM_WETDEP1_NAME      WETDEP1 file name (without date and file extension).
@@ -62,10 +62,10 @@ A user can choose to do all of the steps at once or run the script multiple time
  COMBINE_ACONC_NAME     Name of combine ACONC file (without date and file extension).
  COMBINE_DEP_NAME       Name of combine DEP file (without date and file extension).
  EVALDIR                Location where sitecmp files will be saved (or location of existing sitecmp files).
- PLOTDIR                Location where evaluaiton plots will be saved.
+ PLOTDIR                Location where evaluation plots will be saved.
 ```
 __Required Met and CCTM files__
-1. **METCRO2D** - needed for instantaneous hourly surface temperature (TEMP2), planatary boundary height (PBL), solar radiation (RGRND), 10m wind speed (WSDP10), 10m wind direction (WDIR10), precipitation (RN+RC). 
+1. **METCRO2D** - needed for instantaneous hourly surface temperature (TEMP2), planetary boundary height (PBL), solar radiation (RGRND), 10m wind speed (WSDP10), 10m wind direction (WDIR10), precipitation (RN+RC). 
 2. **METCRO3D** - needed for instantaneous hourly air density (DENS) which is used in unit conversions of gas and aerosol species
 3. **CCTM_ACONC** - needed for hourly average gas and aerosol modeled species time stamped at the top of the hour
 4. **CCTM_APMDIAG** - needed for hourly average relative humidity (RH) and modeled aerosol mode parameters time stamped at the top of the hour
@@ -97,18 +97,18 @@ Consistent naming conventions are used throughout the script to facilitate loopi
 
 File names can be adjusted but may require changes to the script below section 7. 
 
-__Organzation of post-processing output__
+__Organization of post-processing output__
 Output files are organized into three directories: 
-+ $POSTDIR - loction to write combine files, or the location of existing combine files
++ $POSTDIR - location to write combine files, or the location of existing combine files
 + $EVALDIR - location to save sitecmp and sitecmp_dailyo3 .csv files for each network
 + $PLOTDIR - location to save evaluation plots 
 
 These directories can be set to the same path.  This run script is set up to organize the various post-processing steps into monthly files.  For example, if a user has an annual simulation and uses the script to go through all of the post-processing steps the end result will include:
-1.  12 monthly COMBINE_ACONC and 12 montly COMBINE_DEP files with hourly model output, all written to the $POSTDIR directory. 
+1.  12 monthly COMBINE_ACONC and 12 monthly COMBINE_DEP files with hourly model output, all written to the $POSTDIR directory. 
 2.  12 .csv files with matched model/obs data for EACH network selected in Section 5.  These files will be organized into 12 directories labeled $EVALDIR/$YYYY$MM.
-3.  Evalution plots for each month of model/obs pairs, organized into 12 directories labeled $PLOTDIR/$YYYY$MM.
+3.  Evaluation plots for each month of model/obs pairs, organized into 12 directories labeled $PLOTDIR/$YYYY$MM.
 
-For a 2 week simulation that spans two months, e.g. 6/15/2011 - 7/15/2011, evalation plots will still be divided into monthly summaries, using the available model data from each month. If the user would prefer the evaluation plots be based on ALL available data from the simulation time period, rather than monthly summaries, there is an option for this in section 7. 
+For a 2-week simulation that spans two months, e.g. 6/15/2011 - 7/15/2011, evaluation plots will still be divided into monthly summaries, using the available model data from each month. If the user would prefer the evaluation plots be based on ALL available data from the simulation time period, rather than monthly summaries, there is an option for this in section 7. 
 
 ### Section 3: System configuration, location of observations and code repositories
 ```
@@ -138,7 +138,7 @@ Prior to running this post-processing run script, the user is encouraged to buil
    Compiler options are intel, gcc, pgi  
    If you don’t choose a version number, the default for the system you’re on will be used (e.g. on atmos: intel 17.0)  
 
-* CMAQ_HOME should be set to the project directory used in the bldit_project.csh script in step 2.  If you are not using a CMAQ5.2 reposiotry you can comment out the line for CMAQ_HOME in section 3 and modify the location of the executables and the spec_def files in sections 4 and 5.
+* CMAQ_HOME should be set to the project directory used in the bldit_project.csh script in step 2.  If you are not using a CMAQ5.2 repository you can comment out the line for CMAQ_HOME in section 3 and modify the location of the executables and the spec_def files in sections 4 and 5.
 * OBS_DATA_DIR should be set to the location of the observation data from the different routine networks of interest.  These observation files need to be formatted to be compatible with the sitecmp and sitecmp_dailyo3 utilities.  The pre-formatted files are already available on atmos under the directory /work/MOD3EVAL/aq_obs/routine, but can also be downloaded from the  [CMAS Center Data Clearinghouse](https://www.cmascenter.org/download/data.cfm) under the heading "2000-2015 North American Air Quality Observation Data".
 * AMETBASE should be set to the location of the AMETv1.3 code base.  These files are already available on atmos under the directory /work/MOD3EVAL/amet.  They can also be cloned directly from GitHub using the command  `gitclone -b 1.3 https://github.com/USEPA/AMET.git AMET13_repo` 
 
@@ -156,7 +156,7 @@ The combine Fortran utility combines fields from a set of IOAPI or wrfout files 
 * All the species listed in the species definition files need to be output when CMAQ is being run. One option is to set the ACONC output to be all species.  
 * By default this script is set up to extract the full set of model species that can be paired to observations from a set of standard networks (e.g. AERONET, AMON, AQS, CASTNET, CSN, IMPROVE, NADP, SEARCH). See section 5 for further details on the different chemical species available from each network.  
 * A user can create a more targeted evaluation for a specific subset of species by making these modifications to the run script.
-1. Create a new species definition file to be used with the combine utility.  For example here is a sample file for extracting O3, NOx and PM2.5: 
+1. Create a new species definition file to be used with the combine utility.  For example, here is a sample file for extracting O3, NOx and PM2.5: 
 ```
  #layer         1
 / File [1]: CMAQ conc/aconc file
@@ -183,8 +183,8 @@ PM25_TOT        ,ug/m3     ,ATOTI[0]*PM25AT[2]+ATOTJ[0]*PM25AC[2]+ATOTK[0]*PM25C
  EXEC_sitecmp              Full path of sitecmp executable
  EXEC_sitecmp_dailyo3      Full path of sitecmp_dailyo3 executable
  IOAPI_ISPH                Projection sphere type for sitecmp and combine (use type 20 to match WRF/CMAQ)
- TIME_SHIFT                Set timeshift flag in site compare. This should always be set to 0 unless using ACONC 
-                           files that have been timeshifted.  
+ TIME_SHIFT                Set time shift flag in site compare. This should always be set to 0 unless using ACONC 
+                           files that have been time shifted.  
  AQ_SPECIES_LIST           Species list for matching model species names to names in observation data files.
  INC_AERO6_SPECIES         Include specific species from the AERO6 chemical mechanism in the species list.  
                            Choices are T,F.
@@ -218,6 +218,7 @@ PM25_TOT        ,ug/m3     ,ATOTI[0]*PM25AT[2]+ATOTJ[0]*PM25AC[2]+ATOTK[0]*PM25C
  O3_UNITS                  Ozone units to use in output (ppb by default)
  PRECIP_UNITS              Precipitation units used in WDEP file (cm by default)  
 ```
+The following table provides the list of available observations from each network.
 
 | Network       | Available Species                                     | Notes |
 | ------------- |-------------------------------------------------------| -------|
@@ -225,7 +226,7 @@ PM25_TOT        ,ug/m3     ,ATOTI[0]*PM25AT[2]+ATOTJ[0]*PM25AC[2]+ATOTK[0]*PM25C
 | AMON          | NH3             |      Data available for 2009 - 2014   |
 | AQS_HOURLY    | O3, NO, NOY, NO2, NOX, CO, SO2, PM2.5, PM10, Isoprene, Ethylene, Ethane, Toluene | |
 | AQS_DAILY_O3  | O3_1hrmax, O3_1hrmax_9cell, O3_1hrmax_time, O3_8rhmax, O3_8hrmax_9cell, O3_8hrmax_time, W126, SUM06| |                
-| AQS_DAILY    | PM2.5, PM10, Isoprene, Ethylene, Ethane, Toluene, Acetaldehyde, Formaldehyde, Oc, EC, TC, Na, Cl, NaCl, SO4, NO3, NH4, Fe, Al, Si, Ti, Ca, Mg, K, Mn, soil, OTHER, NCOM|  |                
+| AQS_DAILY    | PM2.5, PM10, Isoprene, Ethylene, Ethane, Toluene, Acetaldehyde, Formaldehyde, OC, EC, TC, Na, Cl, NaCl, SO4, NO3, NH4, Fe, Al, Si, Ti, Ca, Mg, K, Mn, soil, OTHER, NCOM|  |                
 | CASTNET      | SO4, NO3, NH4, TNO3, Mg, Ca, K, Na, Cl, HNO3, SO2|       |           
 | CASTNET_HOURLY|  O3, surface temp, RH, solar radiation, precip, WSPD |   |             
 | CASTNET_DAILY_O3| O3_1hrmax, O3_1hrmax_9cell, O3_1hrmax_time, O3_8rhmax, O3_8hrmax_9cell, O3_8hrmax_time, W126, SUM06| |
@@ -254,20 +255,22 @@ PM25_TOT        ,ug/m3     ,ATOTI[0]*PM25AT[2]+ATOTJ[0]*PM25AC[2]+ATOTK[0]*PM25C
  USER_NAME                 User name, e.g. "myuserid" , or can be set to `whoami`
  EMAIL_ADDR                User email address, e.g. "user.name@epa.gov"
 ```
+This section sets up meta data information that will be loaded into the AMET database along with the model/obs data produced from running sitecmp and sitecmp_dailyo3. This meta data will appear in the [AMET web interface](http://newton.rtpnc.epa.gov/wyat/AMET_AMAD/querygen_aq.php) for users who have access to the RTP campus Intranet.
 
 ### Section 7: Evaluation plotting configuration options
 ```
  AMETRINPUT                Set the location of the configuration file for the batch plotting.  
  AMET_PTYPE                Plot type. Options are "pdf","png","both"
- EVAL_BY_MONTH             T/F Flag. When set to T (default) evalatuion plots will be organized 
+ EVAL_BY_MONTH             T/F Flag. When set to T (default) evaluation plots will be organized 
                            into monthly summaries. 
  AMET_PROJECT2             Specify a second simulation (already post-processed) to compare to using 
                            model-to-model evaluation plots, e.g. "CMAQv52_Benchmark_Test" 
  OUTDIR2                   Specify the location of the sitecmp files from the second simulation
 ```
 *Notes*
-* An example configuration file for ${AMETINPUT} can be found on atmos: /work/MOD3EVAL/cmaq_exp/post_scripts/config_CMAQ_eval_AMET.R
-* When EVAL_BY_MONTH is set to F evalution plots will be based on all available data between START_DATE_H and END_DATE_H. This option is only available when AMET_DB is set to T in Section 1.
+* An example configuration file for ${AMETINPUT} can be found on atmos: /work/MOD3EVAL/cmaq_exp/post_scripts/config_CMAQ_eval_AMET.R 
+  The options set in the configuration file are applied to all batch run scripts.  
+* When EVAL_BY_MONTH is set to F evaluation plots will be based on all available data between START_DATE_H and END_DATE_H. This option is only available when AMET_DB is set to T in Section 1.
 * Model-to-model evaluation plots, controlled through setting AMET_PROJECT2 and OUTDIR2, are currently supported in a limited fashion. If the user is not using the AMET database (e.g. AMET_DB set to F in Section 1), OUTDIR2 must be set to specify the location of the site compare files for the second simulation.  These sitecmp files should be labeled with the character string specified in the AMET_PROJECT2 environment variable.
 
 ### Section 8: Execution of all post-processing steps
@@ -276,9 +279,5 @@ The user will typically not need to edit this portion of the run script.  Sectio
 * 8b - Loop through simulation days to create DEP combine files for every month
 * 8c - Advanced AMET configuration options
 * 8d - Create AMET project
-* 8e - Create and run sitecmp run scripts. Loade sitecmp data into AMET database.  Make plots for each month of model/obs data.
+* 8e - Create and run sitecmp run scripts. Load sitecmp data into AMET database.  Make plots for each month of model/obs data.
 * 8f - Create evaluation plots for the entire simulation period.
-
-
-
-
