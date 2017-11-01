@@ -1,7 +1,10 @@
 run_CMAQ_eval_AMET
 ========
-
 This run script controls execution of multiple post-processing and evaluation steps including running combine, sitecmp, sitecmp_dailyo3, loading matched model/obs data (i.e. sitecmp files) into the AMET database and creating AMET "batch" evaluation plots.
+
+Location of run script on atmos: /work/MOD3EVAL/cmaq_exp/post_scripts/run_CMAQ_eval_AMET.csh
+
+Sample output is available here:  /work/MOD3EVAL/cmaq_exp/post_scripts/ref_output/SE52BENCH_AMET
 
 ## Running on atmos
 The Simple Linux Utility for Resource Managment System (SLURM) header at the top of the shell script is used to control execution of the run script on the atmos cluster.
