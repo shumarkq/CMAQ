@@ -122,6 +122,7 @@ For a 2-week simulation that spans two months, e.g. 6/15/2011 - 7/15/2011, evalu
  AMETBASE         Location of AMETv1.3 code base
  ```
 *Notes*
+
 Prior to running this post-processing run script, the user is encouraged to build their own executables for the combine, sitecmp and sitecmp_dailyo3 executables using the following steps:
 1. Clone the 5.2 branch of the USEPA CMAQ GitHub repository: 
   ```
