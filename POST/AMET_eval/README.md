@@ -17,13 +17,11 @@ The setting of environment variables in the run script is divided into 8 differe
  WRITE_SITEX       Write scripts for running site compare for each selected network? Choices are T,F.
  RUN_SITEX         Run site compare scripts for each selected network? Choices are T,F.
  CREATE_PROJECT    Create AMET project? Choices are T,F.
-#> AMET options
- LOAD_SITEX        Load site compare output for each selected network into AMET? Choices are T,F.
- UPDATE_PROJECT    Update the project info for an existing project (all data are retained)? Choices are T,F.
+ LOAD_SITEX        Load site compare output for each selected network into AMET database? Choices are T,F.
+ UPDATE_PROJECT    Update the AMET project info for an existing project (all data are retained)? Choices are T,F.
  REMAKE_PROJECT    Remake an existing AMET project. Note that all existing data will be deleted. Choices are T,F.
  DELETE_PROJECT    Delete an existing AMET project. This will delete all data in the existing
                    AMET table and remove the table from the database. Choices are T,F. 
-#> Plotting options
  AMET_DB           Use the AMET database for evaluation plotting? Choices are T,F.
  spatial_plots     Create maps of biase and error from site compare output? Choices are T,F. 
  stacked_barplots  Create stacked bar plots of PM2.5 species from site compare output? Choices are T,F.
@@ -78,7 +76,6 @@ __Required Met and CCTM files__
 * PM2.5 modeled size distributions from the CCTM_APMDIAG file are used to calculate PM2.5 species with a cut-off diameter of 2.5μm or less.  These species begin with "PM" in the species definition files provided in the CMAQ code base for version 5.2 or later. For example, PM25_NA is all sodium that falls below 2.5μm diameter.  These 'PM' variables are used for comparisons at IMPROVE and CSN sites.
 * Prior to CMAQv5.2, aerosol modeled size distributions were contained in the AERODIAM file which contained instantaneous hourly model variables starting with hour 1.  In CMAQv5.2 the CCTM_APMDIAG output was created to produce hourly average model variables starting with hour 0 which is analogous to the structure of the CCTM_ACONC output file.  This script is structured to *only* work with the CCTM_APMDIAG file for extracting model size distributions.  If the CCTM_APMDIAG file was not produced by the model simulation (by setting CTM_APMDIAG flag to F in the run_cctm.csh run script) then this evaluation script can be modified to remove the dependency on the CCTM_APMDIAG file.  See section 4 for more details.
 * Surface temperature and relative humidity are used to calculate an "FRM equivalent" PM2.5 total estimate that accounts for loss of particle nitrate, sulfate and ammonium from the FRM sampling filters. These species are labeled with "\_FRM" in the concentration species definition files provided in the CMAQ code base for versions 5.2 and later, i.e. PMIJ_FRM and PM25_FRM.
-
 
 __Naming Conventions for Input/Output Files__
 Consistent naming conventions are used throughout the script to facilitate looping over dates. 
@@ -151,10 +148,35 @@ Prior to running this post-processing run script, the user is encouraged to buil
  SPEC_CONC        Location of species definition files for concentration species 
  SPEC_DEP         Location of species definition files for deposition species
 ```
-
 This section sets the location of the combine executable and the species definition files for concentration and deposition species.  If ${CMAQ_HOME}, ${compiler}, and ${compilerVrsn} have been set in section 3 then these paths are automatically set and no additional changes are needed in this section.  
 
-The combine Fortran utility combines fields from a set of IOAPI or wrfout files into a single output file. The SPEC_CONC and SPEC_DEP files are used to define the new species variables and how they are constructed. This means that all the species listed in the species definition files need to be output when CMAQ is being run. One option is to set the ACONC output to be all species.
+The combine Fortran utility combines fields from a set of IOAPI or wrfout files into a single output file. The SPEC_CONC and SPEC_DEP species definition files are used to specify how the concentrations of raw output species from CMAQ should be aggregated or transformed into variables of interest. For example, the concentrations of NO and NO2 from CMAQ can be added together to yield the concentration of NOx. Examples of possible post-processing expressions are shown in the sample species definition files released with CMAQv5.2 under the [CCTM/src/MECHS](https://github.com/USEPA/CMAQ/tree/5.2/CCTM/src/MECHS) folder. Because each chemical mechanism being used in CMAQ differs in the number and kind of species it treats, the sample species definition files provided have been labeled according to the mechanism each corresponds to, i.e. "SpecDef\_${MECH}.txt" for concentration species and "SpecDef\_Dep\_${MECH}.txt" for deposition species.
+
+*Notes*
+* All the species listed in the species definition files need to be output when CMAQ is being run. One option is to set the ACONC output to be all species.  
+* By default this script is set up to extract the full set of model species that can be paired to observations from a set of standard networks (e.g. AERONET, AMON, AQS, CASTNET, CSN, IMPROVE, NADP, SEARCH). See section 5 for further details on the different chemical species available from each network.  
+* A user can create a more targeted evaluation for a specific subset of species by making these modifications to the run script.
+1. Create a new species definition file to be used with the combine utility.  For example here is a sample file for extracting O3, NOx and PM2.5: 
+```
+ #layer         1
+/ File [1]: CMAQ conc/aconc file
+/ File [2]: APMDIAG file
+/new species    ,units     ,expression
+
+O3              ,ppbV      ,1000.0\*O3[1]
+NOX             ,ppbV      ,1000.0\*(NO[1] + NO2[1])
+ATOTI           ,ug/m3     ,ASO4I[1]+ANO3I[1]+ANH4I[1]+ANAI[1]+ACLI[1] \
+                           +AECI[1]+AOMI[0]+AOTHRI[1] 
+ATOTJ           ,ug/m3     ,ASO4J[1]+ANO3J[1]+ANH4J[1]+ANAJ[1]+ACLJ[1] \
+                           +AECJ[1]+AOMJ[0]+AOTHRJ[1]+AFEJ[1]+ASIJ[1]  \
+                           +ATIJ[1]+ACAJ[1]+AMGJ[1]+AMNJ[1]+AALJ[1]+AKJ[1]
+ATOTK           ,ug/m3     ,ASOIL[1]+ACORS[1]+ASEACAT[1]+ACLK[1]+ASO4K[1] \
+                           +ANO3K[1]+ANH4K[1]
+PM25_TOT        ,ug/m3     ,ATOTI[0]*PM25AT[2]+ATOTJ[0]*PM25AC[2]+ATOTK[0]*PM25CO[2]
+```
+2. In section 5 only select networks that have observation data for O3, NOx or PM2.5.
+3. In section 8a set INFILE1 to the CCTM_ACONC file and INFILE2 to the CCMT_APMDIAG file.  Comment out lines for INFILE3 and INFILE4.
+4. Remove or comment out section 8b which is used to create combine files of deposition species.
 
 ### Section 5: Site compare configuration options
 ```
@@ -197,29 +219,28 @@ The combine Fortran utility combines fields from a set of IOAPI or wrfout files 
  PRECIP_UNITS              Precipitation units used in WDEP file (cm by default)  
 ```
 
-| Network       | Available Species                                     | 
-| ------------- |-------------------------------------------------------| 
-| AERONET       | AOD_340, AOD_380, AOD_440, AOD_500, AOD_555, AOD_675, AOD_870, AOD_1020, AOD_1640|           
-| AMON          | NH3             |                     
-| AQS_HOURLY    | O3, NO, NOY, NO2, NOX, CO, SO2, PM2.5, PM10, Isoprene, Ethylene, Ethane, Toluene | 
-| AQS_DAILY_O3  | O3_1hrmax, O3_1hrmax_9cell, O3_1hrmax_time, O3_8rhmax, O3_8hrmax_9cell, O3_8hrmax_time, W126, SUM06|                 
-| AQS_DAILY    | PM2.5, PM10, Isoprene, Ethylene, Ethane, Toluene, Acetaldehyde, Formaldehyde, Oc, EC, TC, Na, Cl, NaCl, SO4, NO3, NH4, Fe, Al, Si, Ti, Ca, Mg, K, Mn, soil, OTHER, NCOM|                  
-| CASTNET      | SO4, NO3, NH4, TNO3, Mg, Ca, K, Na, Cl, HNO3, SO2|                  
-| CASTNET_HOURLY|  O3, surface temp, RH, solar radiation, precip, WSPD |                
-| CASTNET_DAILY_O3| O3_1hrmax, O3_1hrmax_9cell, O3_1hrmax_time, O3_8rhmax, O3_8hrmax_9cell, O3_8hrmax_time, W126, SUM06|
-| CASTNET_DRYDEP|              |                  
-| CSN           | SO4, NO3, NH4, PM2.5, OC, EC, TC, Na, Cl, Fe, Al, Si, Ti, Ca, Mg, K, Mn, soil, NaCl, OTHER, NCOM|                   
-| IMPROVE       | SO4, NO3, NH4, PM2.5, OC, EC, TC, Cl, PM10, PM Coarse, Na, NaCl, Fe, Al, Si, Ti, Ca, Mg, K, Mn, soil, OTHER, NCOM|
-| NADP          | NH4 wet dep, NO3 wet dep, SO4 wet dep, Cl wet dep, Na wet dep, Ca wet dep, Ca wet dep, Mg wet dep, K wet dep, Precip| 
-| SEARCH_HOURLY | O3, CO, SO2, NO, NO2, NOY, HNO3, NH3, EC, OC, TC, PM2.5, NH4, SO4, WSPD, RH, SFC_TMP, precip, solar radiation |       
-| SEARCH_DAILY  | SO4, NO3, NH4, TNO3, Na, OC, EC, PM2.5, Al, Si, K, Ca, Ti, Mn, Fe|               
-| EMEP_HOURLY   |              |           
-| EMEP_DAILY    |              |                   
-| FLUXNET       |              |                  
-| MDN           |              |              
-| NAPS_HOURLY   |              |                  
-| NOAA_ESRL_O3  |              |              
-
+| Network       | Available Species                                     | Notes |
+| ------------- |-------------------------------------------------------| -------|
+| AERONET       | AOD_340, AOD_380, AOD_440, AOD_500, AOD_555, AOD_675, AOD_870, AOD_1020, AOD_1640| |          
+| AMON          | NH3             |      Data available for 2009 - 2014   |
+| AQS_HOURLY    | O3, NO, NOY, NO2, NOX, CO, SO2, PM2.5, PM10, Isoprene, Ethylene, Ethane, Toluene | |
+| AQS_DAILY_O3  | O3_1hrmax, O3_1hrmax_9cell, O3_1hrmax_time, O3_8rhmax, O3_8hrmax_9cell, O3_8hrmax_time, W126, SUM06| |                
+| AQS_DAILY    | PM2.5, PM10, Isoprene, Ethylene, Ethane, Toluene, Acetaldehyde, Formaldehyde, Oc, EC, TC, Na, Cl, NaCl, SO4, NO3, NH4, Fe, Al, Si, Ti, Ca, Mg, K, Mn, soil, OTHER, NCOM|  |                
+| CASTNET      | SO4, NO3, NH4, TNO3, Mg, Ca, K, Na, Cl, HNO3, SO2|       |           
+| CASTNET_HOURLY|  O3, surface temp, RH, solar radiation, precip, WSPD |   |             
+| CASTNET_DAILY_O3| O3_1hrmax, O3_1hrmax_9cell, O3_1hrmax_time, O3_8rhmax, O3_8hrmax_9cell, O3_8hrmax_time, W126, SUM06| |
+| CASTNET_DRYDEP|              |                  |
+| CSN           | SO4, NO3, NH4, PM2.5, OC, EC, TC, Na, Cl, Fe, Al, Si, Ti, Ca, Mg, K, Mn, soil, NaCl, OTHER, NCOM|  |                 
+| IMPROVE       | SO4, NO3, NH4, PM2.5, OC, EC, TC, Cl, PM10, PM Coarse, Na, NaCl, Fe, Al, Si, Ti, Ca, Mg, K, Mn, soil, OTHER, NCOM| |
+| NADP          | NH4 wet dep, NO3 wet dep, SO4 wet dep, Cl wet dep, Na wet dep, Ca wet dep, Ca wet dep, Mg wet dep, K wet dep, Precip| | 
+| SEARCH_HOURLY | O3, CO, SO2, NO, NO2, NOY, HNO3, NH3, EC, OC, TC, PM2.5, NH4, SO4, WSPD, RH, SFC_TMP, precip, solar radiation |Data available for 2002 - 2013  |      
+| SEARCH_DAILY  | SO4, NO3, NH4, TNO3, Na, OC, EC, PM2.5, Al, Si, K, Ca, Ti, Mn, Fe| Data available for 2002 - 2013  |             
+| EMEP_HOURLY   |              |           |
+| EMEP_DAILY    |              |           |        
+| FLUXNET       |              |           |       
+| MDN           |              | Data available for 2000-2014|   
+| NAPS_HOURLY   |              |           |       
+| NOAA_ESRL_O3  |              |           |   
 
 
 ### Section 6: AMET configuration options
