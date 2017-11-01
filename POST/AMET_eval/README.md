@@ -34,8 +34,8 @@ The setting of environment variables in the run script is divided into 8 differe
 ```
 All 14 environment variables in this section are T/F flags.  Flags can be set to T or F depending on what post-processing files are needed and which steps have already been completed. While the flags can be set in many different permutations, the post-processing must take place in a specific order:
 1. Run the combine utility on CCTM output to create COMBINE_ACONC and COMBINE_DEP files. 
-2. Create "sitex" run scripts for running the sitecmp and sitecmp_dailyo3 utilities.
-3. Run the sitecmp and sitecmp_dailyo3 utilities using the sitex scripts created in step 2 to create comma separated files with matched model/obs pairs for different observation networks. 
+2. Create "sitex" run scripts for controlling the execution of the sitecmp and sitecmp_dailyo3 utilities.
+3. Run the sitex scripts to create comma separated files with matched model/obs pairs for different observation networks. 
 4. [Optional] Load model/obs pairs into the AMET database.
 5. Create evaluation plots based on matched model/obs data using the batch plotting code in AMET.
 
