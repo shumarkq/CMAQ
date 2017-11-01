@@ -1,20 +1,40 @@
 run_CMAQ_eval_AMET
 ========
+
+## Contents
+
+[1. Overview](#Overview)<br>
+[2. Running on Atmos](#atmos)<br>
+[3. Setting environment variables](#EnvVar)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[3.1 Selection of analysis steps](#picksteps)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[3.2 Simulation information, Input/Output directories](#sim_info)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[3.3 System configuration, location of observations and code repositories](#config)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[3.4 Combine configuration options](#combine)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[3.5 Site compare configuration options](#sitecmp)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[3.6 AMET configuration options](#amet)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[3.7 Evaluation plotting configuration options](#plots)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[3.8 Execution of all post-processing steps](#execute)<br>
+
+<a id="Overview"></a>1. Overview
+===========
 This run script controls execution of multiple post-processing and evaluation steps including running combine, sitecmp, sitecmp_dailyo3, loading matched model/obs data (i.e. sitecmp files) into the AMET database and creating AMET "batch" evaluation plots.
 
 Location of run script on atmos: /work/MOD3EVAL/cmaq_exp/post_scripts/run_CMAQ_eval_AMET.csh
 
 Sample output is available here:  /work/MOD3EVAL/cmaq_exp/post_scripts/ref_output/SE52BENCH_AMET
 
-## Running on atmos
+<a id="atmos"></a>2. Running on atmos
+===========
 The Simple Linux Utility for Resource Managment System (SLURM) header at the top of the shell script is used to control execution of the run script on the atmos cluster.
 * User should change lines with *--gid* and *--output* to reflect their account on atmos.
 * User should **not** change the *--partition=singlepe* if they wish to access the AMET database.  
 
-## Setting environment variables
+<a id="EnvVar"></a>3. Setting environment variables
+===========
 The setting of environment variables in the run script is divided into 8 different numbered sections.  Details on the environment variables within each section are provided below. Section 8 is the portion of the script that loops through the simulations days to create the various post-processing outputs. The user will typically only need to make edits to sections 1-7.   
 
-### Section 1: Select which analysis steps you want to execute
+<a id="picksteps"></a>Section 1: Select which analysis steps you want to execute
+-------------------------------------
 ```
  RUN_COMBINE       Run combine on CCTM output? Choices are T,F.
  WRITE_SITEX       Write scripts for running site compare for each selected network? Choices are T,F.
@@ -46,7 +66,8 @@ A user can choose to do all of the steps at once or run the script multiple time
 * AMET_DB should only be set to T if LOAD_SITEX=T (or if LOAD_SITEX has been set to T previously).
 * An AMET project does not have to be created in order to use the AMET batch plotting scripts.  If the user chooses not to load the data into the AMET database, they should set the AMET_DB flag to F.  In this case the batch plotting scripts will read the data directly from the .csv sitecmp and sitecmp_dailyo3 files. 
 
-### Section 2: Simulation information, Input/Output directories
+<a id="sim_info"></a>Section 2: Simulation information, Input/Output directories
+-------------------------------------
 ```
  START_DATE_H           Start day. Should be in format "YYYY-MM-DD".
  END_DATE_H             End day. Should be in format "YYYY-MM-DD".
@@ -113,7 +134,8 @@ These directories can be set to the same path.  This run script is set up to org
 
 For a 2-week simulation that spans two months, e.g. 6/15/2011 - 7/15/2011, evaluation plots will still be divided into monthly summaries, using the available model data from each month. If the user would prefer the evaluation plots be based on ALL available data from the simulation time period, rather than monthly summaries, there is an option for this in section 7. 
 
-### Section 3: System configuration, location of observations and code repositories
+<a id="config"></a>Section 3: System configuration, location of observations and code repositories
+-------------------------------------
 ```
  compiler         Compiler used to compile combine, sitecmp, sitecmp_dailyo3 (e.g. intel, gcc, pgi)
  compilerVrsn     Compiler version (e.g. 17.0.3)
@@ -146,7 +168,8 @@ Prior to running this post-processing run script, the user is encouraged to buil
 * OBS_DATA_DIR should be set to the location of the observation data from the different routine networks of interest.  These observation files need to be formatted to be compatible with the sitecmp and sitecmp_dailyo3 utilities.  The pre-formatted files are already available on atmos under the directory /work/MOD3EVAL/aq_obs/routine, but can also be downloaded from the  [CMAS Center Data Clearinghouse](https://www.cmascenter.org/download/data.cfm) under the heading "2000-2015 North American Air Quality Observation Data".
 * AMETBASE should be set to the location of the AMETv1.3 code base.  These files are already available on atmos under the directory /work/MOD3EVAL/amet.  They can also be cloned directly from GitHub using the command  `gitclone -b 1.3 https://github.com/USEPA/AMET.git AMET13_repo` 
 
-### Section 4: Combine configuration options
+<a id="combine"></a>Section 4: Combine configuration options
+-------------------------------------
 ```
  EXEC_combine     Full path of combine executable
  SPEC_CONC        Location of species definition files for concentration species 
@@ -182,7 +205,8 @@ PM25_TOT        ,ug/m3     ,ATOTI[0]*PM25AT[2]+ATOTJ[0]*PM25AC[2]+ATOTK[0]*PM25C
 3. In section 8a set INFILE1 to the CCTM_ACONC file and INFILE2 to the CCMT_APMDIAG file.  Comment out lines for INFILE3 and INFILE4.
 4. Remove or comment out section 8b which is used to create combine files of deposition species.
 
-### Section 5: Site compare configuration options
+<a id="sitecmp"></a>Section 5: Site compare configuration options
+-------------------------------------
 ```
  EXEC_sitecmp              Full path of sitecmp executable
  EXEC_sitecmp_dailyo3      Full path of sitecmp_dailyo3 executable
@@ -247,8 +271,8 @@ The following table provides the list of available observations from each networ
 | NAPS_HOURLY   |              |           |       
 | NOAA_ESRL_O3  |              |           |   
 
-
-### Section 6: AMET configuration options
+<a id="amet"></a> Section 6: AMET configuration options
+-------------------------------------
 ```
  AMET_DATABASE             AMET database name, e.g. adad_CMAQ_v52_Dev. Model to model 
                            comparisons are possible for all projects loaded within the same database.  
@@ -261,7 +285,8 @@ The following table provides the list of available observations from each networ
 ```
 This section sets up meta data information that will be loaded into the AMET database along with the model/obs data produced from running sitecmp and sitecmp_dailyo3. This meta data will appear in the [AMET web interface](http://newton.rtpnc.epa.gov/wyat/AMET_AMAD/querygen_aq.php) for users who have access to the RTP campus Intranet.
 
-### Section 7: Evaluation plotting configuration options
+<a id="plots"></a> Section 7: Evaluation plotting configuration options
+-------------------------------------
 ```
  AMETRINPUT                Set the location of the configuration file for the batch plotting.  
  AMET_PTYPE                Plot type. Options are "pdf","png","both"
@@ -277,7 +302,8 @@ This section sets up meta data information that will be loaded into the AMET dat
 * When EVAL_BY_MONTH is set to F evaluation plots will be based on all available data between START_DATE_H and END_DATE_H. This option is only available when AMET_DB is set to T in Section 1.
 * Model-to-model evaluation plots, controlled through setting AMET_PROJECT2 and OUTDIR2, are currently supported in a limited fashion. If the user is not using the AMET database (e.g. AMET_DB set to F in Section 1), OUTDIR2 must be set to specify the location of the site compare files for the second simulation.  These sitecmp files should be labeled with the character string specified in the AMET_PROJECT2 environment variable.
 
-### Section 8: Execution of all post-processing steps
+<a id="execute"></a> Section 8: Execution of all post-processing steps
+-------------------------------------
 The user will typically not need to edit this portion of the run script.  Section 8 is divided into 6 subsections:
 * 8a -Loop through simulation days to create ACONC combine files for every month
 * 8b - Loop through simulation days to create DEP combine files for every month
