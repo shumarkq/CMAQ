@@ -285,13 +285,13 @@ The user will typically not need to edit this portion of the run script.  Sectio
 * 8e - Create and run sitecmp run scripts. Load sitecmp data into AMET database.  Make plots for each month of model/obs data.
 * 8f - Create evaluation plots for the entire simulation period.
 
-Looping across simulation days is controlled using the Linux *date* command which can be used for both Gregorian and Julian date formats.  A user can make change to sections 8a, 8b and/or 8e to change the looping structure or to modify the default file naming conventions described in section 2. Below are a few examples of date commands that a user may find helpful in customizing their script.
-* Retrieve calendar month from date (format MM)
+Looping across simulation days is controlled using the Linux *date* command which can be used for both Gregorian and Julian date formats.  A user can make change to sections 8a, 8b and/or 8e to change the looping structure or to modify the default file naming conventions described in section 2. Below are a few examples of *date* commands that a user may find helpful in customizing their script.
+* Retrieve calendar month from date using format MM
 ```
 date -ud "2018-06-30" +%m
 06
 ```
-* Retrieve calendar year from date (format YYYY)
+* Retrieve calendar year from date using format YYYY
 ```
 date -ud "2018-06-30" +%Y
 2018
