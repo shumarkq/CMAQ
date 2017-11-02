@@ -160,6 +160,10 @@ Prior to running this post-processing run script, the user is encouraged to buil
    ```
    cd $CMAQ_HOME/POST/combine/scripts
    ./bldit_combine.csh [compiler] [version]
+   cd $CMAQ_HOME/POST/sitecmp/scripts
+   ./bldit_sitecmp.csh [compiler] [version]
+   cd $CMAQ_HOME/POST/sitecmp_dailyo3/scripts
+   ./bldit_sitecmp_dailyo3.csh [compiler] [version]
    ```    
    Compiler options are intel, gcc, pgi  
    If you don’t choose a version number, the default for the system you’re on will be used (e.g. on atmos: intel 17.0)  
