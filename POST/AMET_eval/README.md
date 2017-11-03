@@ -284,14 +284,16 @@ The following table provides the list of available observations from each networ
 <a id="amet"></a> Section 6: AMET configuration options
 -------------------------------------
 ```
- AMET_DATABASE             AMET database name, e.g. adad_CMAQ_v52_Dev. Model to model 
-                           comparisons are possible for all projects loaded within the same database.  
+ AMET_DATABASE             AMET database name, e.g. amad_CMAQ_v52_Dev. Model to model 
+                           comparisons are possible for all projects loaded within the same database. If you're unsure
+                           which AMET database to use, amad_AMAD_AQ is a "catch-all" database for miscellaneous projects.
  AMET_PROJECT              AMET project name, e.g. v52_intel17_0_SE52BENCH.  Character string 
-                           cannot include ".". Project will be created if it does not already exist.
+                           cannot include ".", and should avoid special characters. Project will be created if it does not 
+                           already exist.
  MODEL_TYPE                Type of model being evaluated, e.g. "CMAQ"
  RUN_DESCRIPTION           Meta data for the simulation, e.g. "CMAQv5.2 benchmark test case."
  USER_NAME                 User name, e.g. "myuserid" , or can be set to `whoami`
- EMAIL_ADDR                User email address, e.g. "user.name@epa.gov"
+ EMAIL_ADDR                User email address, e.g. "user.name@epa.gov". Currently not used for anything in AMET.
 ```
 This section sets up meta data information that will be loaded into the AMET database along with the model/obs data produced from running sitecmp and sitecmp_dailyo3. This meta data will appear in the [AMET web interface](http://newton.rtpnc.epa.gov/wyat/AMET_AMAD/querygen_aq.php) for users who have access to the RTP campus Intranet.
 
@@ -310,7 +312,7 @@ This section sets up meta data information that will be loaded into the AMET dat
 * An example configuration file for ${AMETINPUT} can be found on atmos: /work/MOD3EVAL/cmaq_exp/post_scripts/config_CMAQ_eval_AMET.R 
   The options set in the configuration file are applied to all batch run scripts.  
 * When EVAL_BY_MONTH is set to F evaluation plots will be based on all available data between START_DATE_H and END_DATE_H. This option is only available when AMET_DB is set to T in Section 1.
-* Model-to-model evaluation plots, controlled through setting AMET_PROJECT2 and OUTDIR2, are currently supported in a limited fashion. If the user is not using the AMET database (e.g. AMET_DB set to F in Section 1), OUTDIR2 must be set to specify the location of the site compare files for the second simulation.  These sitecmp files should be labeled with the character string specified in the AMET_PROJECT2 environment variable.
+* Model-to-model evaluation plots, controlled through setting AMET_PROJECT2 and OUTDIR2, are currently supported in a limited fashion. If the user is not using the AMET database (e.g. AMET_DB set to F in Section 1), OUTDIR2 must be set to specify the location of the site compare files for the second simulation.  These sitecmp files should be labeled with the character string specified in the AMET\_PROJECT2 environment variable. AMET will attempt to read the site compare files in the specified directory using the naming structure $Network\_${AMET_PROJECT2}.csv (e.g. AQS_Hourly\_AMET\_PROJECT2\_NAME.csv)
 
 <a id="execute"></a> Section 8: Execution of all post-processing steps
 -------------------------------------
