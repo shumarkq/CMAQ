@@ -32,7 +32,7 @@ Sample output is available here:
 <a id="atmos"></a>2. Running on atmos
 ===========
 The Simple Linux Utility for Resource Managment System (SLURM) header at the top of the shell script is used to control execution of the run script on the atmos cluster.
-* User should change lines with *--gid* and *--output* to reflect their account on atmos.
+* User should change lines with *--gid*, *-p*, and *--output* to reflect their account on atmos.
 * User should **not** change the *--partition=singlepe* if they wish to access the AMET database.  
 
 <a id="EnvVar"></a>3. Setting environment variables
@@ -193,7 +193,7 @@ The combine Fortran utility combines fields from a set of IOAPI or wrfout files 
 * All the species listed in the species definition files need to be output when CMAQ is being run. One option is to set the ACONC output to be all species.  
 * By default this script is set up to extract the full set of model species that can be paired to observations from a set of standard networks (e.g. AERONET, AMON, AQS, CASTNET, CSN, IMPROVE, NADP, SEARCH). See section 5 for further details on the different chemical species available from each network.  
 * A user can create a more targeted evaluation for a specific subset of species by making these modifications to the run script.
-1. Create a new species definition file to be used with the combine utility.  For example, here is a sample file for extracting O3, NOx and PM2.5: 
+1. Create a new species definition file to be used with the combine utility.  For example, here is a sample file for extracting O3, NOx and PM2.5.  In this example the user is not interested in extracting deposition species from the DRYDEP or WETDEP output files or meteorological variables from teh METCRO2D file.
 ```
  #layer         1
 / File [1]: CMAQ conc/aconc file
@@ -212,8 +212,8 @@ ATOTK           ,ug/m3     ,ASOIL[1]+ACORS[1]+ASEACAT[1]+ACLK[1]+ASO4K[1] \
 PM25_TOT        ,ug/m3     ,ATOTI[0]*PM25AT[2]+ATOTJ[0]*PM25AC[2]+ATOTK[0]*PM25CO[2]
 ```
 2. In section 5 only select networks that have observation data for O3, NOx or PM2.5.
-3. In section 8a set INFILE1 to the CCTM_ACONC file and INFILE2 to the CCMT_APMDIAG file.  Comment out lines for INFILE3 and INFILE4.
-4. Remove or comment out section 8b which is used to create combine files of deposition species.
+3. In section 8a set INFILE1 to the CCTM_ACONC file and INFILE2 to the CCMT_APMDIAG file. Comment out lines for INFILE3 and INFILE4.
+4. Since there are no deposition species listed in the species definition file, remove or comment out section 8b which is used to create combine files of deposition species.
 
 <a id="sitecmp"></a>Section 5: Site compare configuration options
 -------------------------------------
@@ -256,28 +256,28 @@ PM25_TOT        ,ug/m3     ,ATOTI[0]*PM25AT[2]+ATOTJ[0]*PM25AC[2]+ATOTK[0]*PM25C
  O3_UNITS                  Ozone units to use in output (ppb by default)
  PRECIP_UNITS              Precipitation units used in WDEP file (cm by default)  
 ```
-The following table provides the list of available observations from each network.
+The following table provides the list of available observations from each network.  Additional information on these routine network observational datasets is available in [Section 4.2 of the the AMETv1.3 User's Guide on GitHub](https://github.com/USEPA/AMET/blob/1.3/docs/AMET_Users_Guide_v1.md#Observational_Data)
 
 | Network       | Available Species                                     | Notes |
 | ------------- |-------------------------------------------------------| -------|
-| AERONET       | AOD_340, AOD_380, AOD_440, AOD_500, AOD_555, AOD_675, AOD_870, AOD_1020, AOD_1640| |          
+| AERONET       | AOD_340, AOD_380, AOD_440, AOD_500, AOD_555, AOD_675, AOD_870, AOD_1020, AOD_1640| Data available for 2000 - 2015|          
 | AMON          | NH3             |      Data available for 2009 - 2014   |
-| AQS_HOURLY    | O3, NO, NOY, NO2, NOX, CO, SO2, PM2.5, PM10, Isoprene, Ethylene, Ethane, Toluene | |
-| AQS_DAILY_O3  | O3_1hrmax, O3_1hrmax_9cell, O3_1hrmax_time, O3_8rhmax, O3_8hrmax_9cell, O3_8hrmax_time, W126, SUM06| |                
-| AQS_DAILY    | PM2.5, PM10, Isoprene, Ethylene, Ethane, Toluene, Acetaldehyde, Formaldehyde, OC, EC, TC, Na, Cl, NaCl, SO4, NO3, NH4, Fe, Al, Si, Ti, Ca, Mg, K, Mn, soil, OTHER, NCOM|  |                
-| CASTNET      | SO4, NO3, NH4, TNO3, Mg, Ca, K, Na, Cl, HNO3, SO2|       |           
-| CASTNET_HOURLY|  O3, surface temp, RH, solar radiation, precip, WSPD |   |             
-| CASTNET_DAILY_O3| O3_1hrmax, O3_1hrmax_9cell, O3_1hrmax_time, O3_8rhmax, O3_8hrmax_9cell, O3_8hrmax_time, W126, SUM06| |
+| AQS_HOURLY    | O3, NO, NOY, NO2, NOX, CO, SO2, PM2.5, PM10, Isoprene, Ethylene, Ethane, Toluene |  Data available for 2000 - 2016|
+| AQS_DAILY_O3  | O3_1hrmax, O3_1hrmax_9cell, O3_1hrmax_time, O3_8rhmax, O3_8hrmax_9cell, O3_8hrmax_time, W126, SUM06|Data available for 2000 - 2016 |                
+| AQS_DAILY    | PM2.5, PM10, Isoprene, Ethylene, Ethane, Toluene, Acetaldehyde, Formaldehyde, OC, EC, TC, Na, Cl, NaCl, SO4, NO3, NH4, Fe, Al, Si, Ti, Ca, Mg, K, Mn, soil, OTHER, NCOM|Data available for 2000 - 2016  |                
+| CASTNET      | SO4, NO3, NH4, TNO3, Mg, Ca, K, Na, Cl, HNO3, SO2|  Data available for 2000 - 2016     |           
+| CASTNET_HOURLY|  O3, surface temp, RH, solar radiation, precip, WSPD | Data available for 2000 - 2016  |             
+| CASTNET_DAILY_O3| O3_1hrmax, O3_1hrmax_9cell, O3_1hrmax_time, O3_8rhmax, O3_8hrmax_9cell, O3_8hrmax_time, W126, SUM06|Data available for 2000 - 2016 |
 | CASTNET_DRYDEP|              |                  |
-| CSN           | SO4, NO3, NH4, PM2.5, OC, EC, TC, Na, Cl, Fe, Al, Si, Ti, Ca, Mg, K, Mn, soil, NaCl, OTHER, NCOM|  |                 
-| IMPROVE       | SO4, NO3, NH4, PM2.5, OC, EC, TC, Cl, PM10, PM Coarse, Na, NaCl, Fe, Al, Si, Ti, Ca, Mg, K, Mn, soil, OTHER, NCOM| |
-| NADP          | NH4 wet dep, NO3 wet dep, SO4 wet dep, Cl wet dep, Na wet dep, Ca wet dep, Ca wet dep, Mg wet dep, K wet dep, Precip| | 
+| CSN           | SO4, NO3, NH4, PM2.5, OC, EC, TC, Na, Cl, Fe, Al, Si, Ti, Ca, Mg, K, Mn, soil, NaCl, OTHER, NCOM| Data available for 2000 - 2016 |                 
+| IMPROVE       | SO4, NO3, NH4, PM2.5, OC, EC, TC, Cl, PM10, PM Coarse, Na, NaCl, Fe, Al, Si, Ti, Ca, Mg, K, Mn, soil, OTHER, NCOM|Data available for 2000 - 2016 |
+| NADP          | NH4 wet dep, NO3 wet dep, SO4 wet dep, Cl wet dep, Na wet dep, Ca wet dep, Ca wet dep, Mg wet dep, K wet dep, Precip| Data available for 2000 - 2016 | 
 | SEARCH_HOURLY | O3, CO, SO2, NO, NO2, NOY, HNO3, NH3, EC, OC, TC, PM2.5, NH4, SO4, WSPD, RH, SFC_TMP, precip, solar radiation |Data available for 2002 - 2013  |      
 | SEARCH_DAILY  | SO4, NO3, NH4, TNO3, Na, OC, EC, PM2.5, Al, Si, K, Ca, Ti, Mn, Fe| Data available for 2002 - 2013  |             
 | EMEP_HOURLY   |              |           |
 | EMEP_DAILY    |              |           |        
 | FLUXNET       |              |           |       
-| MDN           |              | Data available for 2000-2014|   
+| MDN           |Mercury wet deposition    | Data available for 2000-2014|   
 | NAPS_HOURLY   |              |           |       
 | NOAA_ESRL_O3  |              |           |   
 
