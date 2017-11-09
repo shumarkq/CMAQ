@@ -32,7 +32,7 @@ Sample output is available here:
 <a id="atmos"></a>2. Running on atmos
 ===========
 The Simple Linux Utility for Resource Managment System (SLURM) header at the top of the shell script is used to control execution of the run script on the atmos cluster.
-* User should change lines with *--gid*, *-p*, and *--output* to reflect their account on atmos.
+* User should change lines with *--gid* and *--output* to reflect their account on atmos.
 * User should **not** change the *--partition=singlepe* if they wish to access the AMET database.  
 
 <a id="EnvVar"></a>3. Setting environment variables
