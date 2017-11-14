@@ -268,18 +268,18 @@ The following table provides the list of available observations from each networ
 | CASTNET      | SO4, NO3, NH4, TNO3, Mg, Ca, K, Na, Cl, HNO3, SO2|  Data available for 2000 - 2016     |           
 | CASTNET_HOURLY|  O3, surface temp, RH, solar radiation, precip, WSPD | Data available for 2000 - 2016  |             
 | CASTNET_DAILY_O3| O3_1hrmax, O3_1hrmax_9cell, O3_1hrmax_time, O3_8rhmax, O3_8hrmax_9cell, O3_8hrmax_time, W126, SUM06|Data available for 2000 - 2016 |
-| CASTNET_DRYDEP|              |                  |
+| CASTNET_DRYDEP| SO2, HNO3, TNO3, SO4, NO3, NH4 | Data available for 2000 - 2016 |
 | CSN           | SO4, NO3, NH4, PM2.5, OC, EC, TC, Na, Cl, Fe, Al, Si, Ti, Ca, Mg, K, Mn, soil, NaCl, OTHER, NCOM| Data available for 2000 - 2016 |                 
 | IMPROVE       | SO4, NO3, NH4, PM2.5, OC, EC, TC, Cl, PM10, PM Coarse, Na, NaCl, Fe, Al, Si, Ti, Ca, Mg, K, Mn, soil, OTHER, NCOM|Data available for 2000 - 2016 |
 | NADP          | NH4 wet dep, NO3 wet dep, SO4 wet dep, Cl wet dep, Na wet dep, Ca wet dep, Ca wet dep, Mg wet dep, K wet dep, Precip| Data available for 2000 - 2016 | 
 | SEARCH_HOURLY | O3, CO, SO2, NO, NO2, NOY, HNO3, NH3, EC, OC, TC, PM2.5, NH4, SO4, WSPD, RH, SFC_TMP, precip, solar radiation |Data available for 2002 - 2013  |      
 | SEARCH_DAILY  | SO4, NO3, NH4, TNO3, Na, OC, EC, PM2.5, Al, Si, K, Ca, Ti, Mn, Fe| Data available for 2002 - 2013  |             
-| EMEP_HOURLY   |              |           |
-| EMEP_DAILY    |              |           |        
-| FLUXNET       |              |           |       
-| MDN           |Mercury wet deposition    | Data available for 2000-2014|   
-| NAPS_HOURLY   |              |           |       
-| NOAA_ESRL_O3  |              |           |   
+| EMEP_HOURLY   | O3, PM2.5, PM10, CO, NO, NO2, NOX, SO2 | Data not currently available from CMAS; Must obtain individually |
+| EMEP_DAILY    | O3, PM2.5, PM10, CO, NO, NO2, NOX, SO2 | Data not currently available from CMAS; Must obtain individually |        
+| FLUXNET       | USTAR, Soil Heat Flux, Sensible Heat Flux, Latent Heat Flux, Soil H2O Concentration, Soil Temp., Surface Temp., 10-m Wind Speed | Currently limited data available |       
+| MDN           | Mercury wet deposition    | Data available for 2000-2014|   
+| NAPS_HOURLY   | O3, PM2.5, PM10, CO, NO, NO2, NOX, SO2 | Data currently available for only 2011 |       
+| NOAA_ESRL_O3  | O3 | Data available for 2000 - 2016 |   
 
 <a id="amet"></a> Section 6: AMET configuration options
 -------------------------------------
