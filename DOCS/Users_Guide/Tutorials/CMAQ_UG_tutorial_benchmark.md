@@ -188,6 +188,12 @@ To configure these parameters, the Science Options within the run_cctm.csh need 
 
 After configuring the MPI settings for your Linux system, check the rest of the script to ensure the correct path, date and names are used for the input data files. Per the note above, different Linux systems have different requirements for submitting MPI jobs.  The command below is an example of how to submit the CCTM run script and may differ depending on the MPI requirements of your Linux system. 
 
+**>>COMMENT<<** this command line could be confused if people are running MPI. It could never work when processors > 1. I suggest that it may be clear that if you want to run MPI, you may submit your work to HPC or interactively like
+1. sbatch run_cctm.csh 
+or
+2. qsub run_cctm.csh. 
+Whatever command lines depend on their HPC system.
+
 ```
 ./run_cctm.csh |& tee cctm.log
 ```
