@@ -176,7 +176,11 @@ Install on Red Hat/CentOS Linux:
 sudo yum install openmpi openmpi-devel
 ```
 
+ 
+
 ## 3.8 Optional Software
+
+**>>COMMENT<<** Why not add Barron's PseudoNetCDF to the list. I think it is very useful tool for python folks. CAMx already add it on their website like this. http://www.camx.com/download/pseudonetcdf.aspx
 
 **Table 3‑3. Optional support software for CMAQ**
 
