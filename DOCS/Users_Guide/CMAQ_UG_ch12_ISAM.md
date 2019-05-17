@@ -32,6 +32,8 @@ Use the bldit.cctm.isam script as you would the base cctm build script.
  cd $M3HOME/scripts/cctm_isam
  ./bldit.cctm.isam |& tee bldit.cctm.isam.log
 ```
+>>**Comment**<< $M3HOME is no longer in CMAQ right? 
+
 
 Note that you will need to have the libraries  (I/O API, netCDF, MPI, Stenex, and Pario) and model builder (bldmake) required by the base model to compile this version of the code. See the base model README for instructions on building these components.
 
