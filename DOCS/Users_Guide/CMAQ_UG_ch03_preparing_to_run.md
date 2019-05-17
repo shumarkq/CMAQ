@@ -38,6 +38,8 @@ Several of these steps are facilitated by having either root or sudo privileges 
 
 CMAQ programs (source codes) are used to build "executables": binary files that consist of instructions that have been translated from their original [source code](http://www.linfo.org/sourcecode.html) (e.g., Fortran) into [machine code](http://www.linfo.org/machine_code.html) (also called machine language or object code) so that they are ready to be run (executed). Executable files are created through the use of a specialized program called a [compiler](http://www.linfo.org/compiler.html).
 
+**>>COMMENT<<** I doubt a few people will install these stuff below by on their own machine. 
+
 ## 3.3 Install Fortran and C compilers
 -----
 There are several options for Fortran and C compilers. The [Fortran wiki](http://fortranwiki.org/fortran/show/Compilers) includes a full list of free and commercial Fortran compilers.
