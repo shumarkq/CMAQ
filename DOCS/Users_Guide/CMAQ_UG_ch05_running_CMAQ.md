@@ -168,6 +168,8 @@ Control/Utility Modules:
 
 Data Estimation Modules:
 
+**>>COMMENT<<** In CMAQ_REPO, Depv only has gas deposition modules. Aerosol depv is in vdiff actually. When you build it they will all go to one directory including aero_depv.F. It should be clear somehow.
+
 -  Deposition velocity estimation (depv)
 -  Photolytic rate computation (phot)
 
