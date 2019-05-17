@@ -59,6 +59,7 @@ Following steps should be clearer.
 |DO_RENORM|Y/N|Set to Y to do renormalization; set to N otherwise|
 |YES_OXLOSS|Y/N|Set to N for production and loss of O3 alone; Y for O3+NO2, but result accuracy is not guaranteed.|
 
+>>**Comment**<< not real input/output data. it does not use any input data right? May just call CMAQ ISAM input files.
 ## 12.4 CMAQ ISAM Input/Output Data
 
 `SRC_CONTROL_FILE` is a required input to ISAM. It is a text file that specifies the emission tagging inputs for ISAM. An example control file, sa_input_ctrl.txt, is provided in the release package.
@@ -114,6 +115,8 @@ The example SA Control File below shows how this group of eight emissions source
  ```
 
 In this example there are four ISAM tag names (ANTHr45, MOBILE, POINT, BIOG). ISAM will supplement the emissions tags with BCON, OTHR, and ICON tags, so that the tag total for each species conserves the bulk concentration. As the nomenclature suggests, BCON comes from lateral boundary conditions, ICON from initial conditions at the very first hour of the entire simulation period, and OTHR is the remaining "untagged" emissions sources, which is derived by subtracting emissions in the tags from the total model emissions.
+
+>>**Comment**<< It is hard to read by following bullet points. How about presenting a full list of Control file. Then add necessary notations in each line where descriptions and restrictions are needed to be highlighted.
 
 ### 12.4.2 SA Control File Format
 
