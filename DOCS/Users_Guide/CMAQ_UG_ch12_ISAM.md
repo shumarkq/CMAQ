@@ -40,6 +40,8 @@ Note that you will need to have the libraries  (I/O API, netCDF, MPI, Stenex, an
 A sample run script is provided in the ISAM release package under $M3HOME/scripts/cctm_isam. Along with the run time options for the base CCTM, this script includes the ISAM configuration options shown in Table 1.
 
 The CMAQ ISAM test run uses the same input data as the base CMAQv5.2 distribution package.  To run the CMAQ ISAM test case:
+>>**Comment**<< I am confused. CMAQ base test case already has ICBC. does CMAQ ISAM use different ICON and BCON from base case?
+Following steps should be clearer.
 
    * Download the base CMAQv5.2 distribution, including the model and input data to obtain/prepare inputs for CMAQ ISAM.  
    * Run the ICON and BCON processors from the base model package to create initial and boundary conditions input files for the CMAQ ISAM test case.
